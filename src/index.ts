@@ -1,13 +1,20 @@
 import express from "express";
 import subjectRoutes from "./routes/subject.js";
 import cors from "cors";
+
 const app = express();
 const PORT = 7000;
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set in classRoom-backend/.env.");
+} 
+
 app.use(cors({
   origin: process.env.FROTEND_URL || "http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 app.use(express.json());
 app.use("/api/subjects", subjectRoutes);
 
